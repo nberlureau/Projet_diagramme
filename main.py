@@ -5,6 +5,12 @@ import numpy as np
 
 class DiagrammeCirculaireApp:
     def __init__(self, root):
+        """Création des champs
+
+        Args:
+            root (tkinter): instance de tkinter
+        """
+        # nom de la page
         self.root = root
         self.root.title("Créateur de diagramme circulaire")
         self.root.geometry("550x400")
@@ -46,20 +52,25 @@ class DiagrammeCirculaireApp:
             frame = tk.Frame(self.frame_zones)
             frame.pack(pady=4)
             
+            # permet d'écrire zone 1: 
             tk.Label(frame, text=f"Zone {i+1} :", width=8).pack(side="left")
             
+            # champ du nom, sera affiché en étiquette
             name_entry = tk.Entry(frame, width=10)
             name_entry.insert(0, f"zone{i+1}")
             name_entry.pack(side="left", padx=3)
 
+            # champ de la couleur, peut être renseigné en anglais ou en hexadécimal (red, ff0000)
             color_entry = tk.Entry(frame, width=10)
             color_entry.insert(0, "blue")
             color_entry.pack(side="left", padx=3)
             
+            # champ de la valeur (de base = 5)
             val_entry = tk.Entry(frame, width=5)
             val_entry.insert(0, "5")
             val_entry.pack(side="left", padx=3)
             
+            # champ de la valeur max (de base = 10)
             total_entry = tk.Entry(frame, width=5)
             total_entry.insert(0, "10")
             total_entry.pack(side="left", padx=3)
@@ -112,13 +123,13 @@ class DiagrammeCirculaireApp:
             r_outer = np.ones_like(theta) * value
             ax.fill_between(theta, r_inner, r_outer, color=color, alpha=0.8)
         
-        # Cercles repères
-        circle_5 = plt.Circle((0, 0), 0.5, transform=ax.transData._b,
+        # Cercles repères à la moitié et au max
+        cercle_moitier = plt.Circle((0, 0), 0.5, transform=ax.transData._b,
                               color='grey', fill=False, linestyle='--', linewidth=1.5, alpha=0.8)
-        circle_10 = plt.Circle((0, 0), 1.0, transform=ax.transData._b,
+        cercle_total = plt.Circle((0, 0), 1.0, transform=ax.transData._b,
                                color='black', fill=False, linestyle='-', linewidth=2.5, alpha=1)
-        ax.add_artist(circle_5)
-        ax.add_artist(circle_10)
+        ax.add_artist(cercle_moitier)
+        ax.add_artist(cercle_total)
         
         # Légende (affiche le nom saisi par l’utilisateur)
         for label, color in zip(labels, colors):
